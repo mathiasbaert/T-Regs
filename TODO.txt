@@ -8,17 +8,15 @@ FEATURES
   - about / credits / licence
 - hosting on github
 - gui
-  - nicer buttons for run, debug, step, continue
   - logo ///
   - font
-  - info pages layout
-  - code samples in readonly codemirror
+  - nicer buttons for run, debug, step, continue
 - demo code:
   - load a demo by clicking
   - palindrome checker
   - prime numbers
   - hello world
-  - Object Oriented Rex (manipulate JSON)
+  - Object Oriented T-Regs (manipulate JSON)
 - errors: 
   - regex errors and regexlang errors
   - label not found errors
@@ -28,3 +26,5 @@ FEATURES
 - regex syntax highlighting
 - stop button
 - actual example of adding 2 numbers on the main page
+- git
+  - include external libs as submodules

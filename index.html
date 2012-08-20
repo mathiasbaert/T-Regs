@@ -1,0 +1,198 @@
+﻿<!doctype html>
+<html lang="en">
+	<head>
+        <meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>T-Regs Programming Language</title>
+		<script src="jQuery.js"></script>
+		<script src="sugar.js"></script>
+		<script src="xregexp.js"></script>
+		<script src="codemirror/lib/codemirror.js"></script>
+		<script src="codemirror/mode/regexlang/regexlang.js"></script>
+		<script src="util.js"></script>
+		<script src="editor.js"></script>
+		<script src="executionstate.js"></script>
+		<script src="program.js"></script>
+		<script src="main.js"></script>
+		<script>
+
+			// IF equals
+			// leftparameter,rightparameter;return true,return false;global variables
+			// 100  /^(?:(?:[^,]+,\1;(?<gotoiftrue>\d+))|(?:[^;]+;\d+,(?<gotoiffalse>\d+)));.*$/$gotoiftrue$gotoiffalse;$<context>/
+			// 110  /^(?<goto>\d+);(?<context>.*)$/$<context>/
+
+
+		</script>
+		<link rel="stylesheet" href="codemirror/lib/codemirror.css">
+		<link rel="stylesheet" href="main.css">
+	</head>
+	<body>
+		<div class="tabBar" id="menu">
+			<h1><a href="#home">T-Regs</a></h1>
+			<ul>
+				<li><a href="#spec">Spec</a></li>
+				<li><a href="#demo">Demo</a></li>
+				<li><a href="#about">About</a></li>
+			</ul>
+		</div>
+		<div id="mainSections">
+			<div id="home" class="content active">
+				<h2>The <em>T-Regs</em> Programming Language</h2>
+				<p>
+					T-Regs is a Next Generation Regular Expression Based Programming Language, 
+					brought to you by the world leader in Next Generation Regular Expression Based Programming Languages.
+				</p>
+				<p>
+					T-Regs (Pronounced "T-Regs") stands for <em>T</em>ext and <em>Reg</em>ular Expression<em>s</em>.
+					We feel strongly that free text is the most natural way of expressing one's thoughts.
+					Therefore T-Regs does away with the restrictions found in traditional programming languages and
+					is entirely based on free text. Free text which is conveniently manipulated by lots and lots of regular expressions.
+				</p>
+				<h2>Quick examples</h2>
+				<h3>Hello world</h3>
+				<p>
+					See, pretty straightforward. <a href="#">You can try this out right here.</a>
+				</p>
+				<div><code>10 /.*/Hello world!/</code></div>
+				<h3>Adding 2 numbers</h3>
+				<p>This is admittedly more advanced, but will become clear enough once you <a href="#">step through it in the online interpreter.</a></p>
+				<div>
+<code>1    /.*/$0;1000/
+2    /^(.*?);(?&lt;goto>1000)$/$1/
+10   /^(\d+)(;.*)$/$1;15$2/
+15   /^([1-9]\d*?-*)0(?=0*;)(.*(?&lt;goto>15).*)/$1-$3/
+20   /(\d*);15(;.*)/$1;0123456789$2/
+25   /^(\d*)(\d)(-*;\d*(\d)\2.*)(;.*)$/$1$4$3$5/
+30   /(\d*);\d+(;.*)/$1;35$2/
+35   /-(?=-*;)(.*(?&lt;goto>35).*)/9$2/
+40   /^(\d*);[^;]+;(?&lt;goto>\d+)(;.*)$/$1$3/
+1000 /^(\d+)\s*-\s*(\d+)$/$1;$2;0;1050/
+1003 /^(\d+);(\d+);\2;(?&lt;goto>\d+)$/$1;$2/
+1005 /^(\d+);(\d+).*$/10;$1;1020;$2/
+1010 /^(?&lt;goto>10);(.*)$/$2/
+1020 /^(\d+);(\d+)$/10;$2;1040;$1/
+1030 /^(?&lt;goto>10);(.*)$/$2/
+1040 /^(\d+);(\d+)$/$2-$1;1000/
+1045 /^(\d+-\d+);(?&lt;goto>\d+)$/$1/
+1050 /^(\d+).*$/$1/</code>
+				</div>
+				<p>
+					<a href="#">Learn more about the syntax</a>
+				</p>
+				<p>
+					The T-Regs Language Commitee will soon set forth guidelines for the Certified T-Regs Programmer Initiative.<br>
+					Follow @ProgramTRegs for further information.
+				</p>
+			</div>
+			<div id="spec" class="content">
+				<h2>The <em>T-Regs</em> Language <em>Specification</em></h2>
+
+				<h2>Overview</h2>
+				<p>
+					T-Regs programs consist of lines of find and replace instructions,
+					which are applied to one body of text, which exists as long as the program runs.
+				</p>
+				<p>
+					This body of text is either input passed to the program on startup or an empty string if no input was defined.
+				</p>
+				<p>
+					When the program has executed its last line, this text is returned as output.
+				</p>
+
+				<h2>Syntax</h2>
+				<h3>Comments start with a <em>hash</em>.</h3>
+				<div><code><em>#</em> this is a comment</code></div>
+				<h3>Code starts with a <em>unique numeric label</em> like this:</h3>
+				<div><code><em>10</em> /.*/Hello World/</code></div>
+				<h3>followed by a <em>find</em> regular expression</h3>
+				<div><code>10 /<em>.*</em>/Hello World/</code></div>
+				<h3>and a <em>replace</em> string.</h3>
+				<div><code>10 /.*/<em>Hello World</em>/</code></div>
+				<h3>These are separated by <em>slashes</em></h3>
+				<div><code>10 <em>/</em>.*<em>/</em>Hello World<em>/</em></code></div>
+				<h2>Regular Expressions Specifics</h2>
+				<h3>The Regex dialect</h3>
+				<p>used in this implementation is the one as implemented by <a href="http://xregexp.com/">xregexp</a>.</p>
+				<p>The important thing to know is that it has named captures which are used like this:</p>
+				<div>
+<code># given an input "3 + 4"
+10 /^<em>(?&lt;left></em>\d+<em>)</em>\s*(?&lt;operator>[-+\/*])\s*(?&lt;right>\d+)$/<br>${right}${operator}<em>${left}</em>/</code>
+				</div>
+				<p>But of course nameless captures are equally fine.</p>
+				<div>
+<code># given an input "3 + 4"
+10 /^<em>(</em>\d+<em>)</em>\s*([-+\/*])\s*(\d+)$/$3$2<em>$1</em>/</code>
+				</div>
+				<h3>Flags</h3>
+				<p>There is no option to set flags.</p>
+				<p>TODO: add flags!</p>
+				<div><code></code></div>
+				<h2>Program flow</h2>
+				<h3>The lines in a program are executed in order of their numerical label.</h3>
+				<p>The program</p>
+				<div>
+<code><em>10</em> /.*/aaa/
+<em>30</em> /.*/bbb/
+<em>20</em> /.*/ccc/</code>
+				</div>
+				<p>
+					will be executed in order <tt>10, 20, 30</tt> and as such result in <tt>bbb</tt>.
+				</p>
+				<h3>And then there was <em>goto</em>&hellip;</h3>
+				<p>All looping and decision making is done using <em>goto</em>.</p>
+				<p>If a find has a named capture "<em>goto</em>", the program will attempt to jump to that label.</p>
+				<div>
+<code>10 /.*/hello <em>40</em>/
+20 /(?&lt;greeting>\w+) <em>(?&lt;goto>\d+)</em>/${greeting}/
+30 /.*/$0 cruel/
+<em>40</em> /.*/$0 world/
+# output: "hello world"</code>
+				</div>
+				<p>In this example at label 20 the value "40" is captured with name goto and the program will jump to label 40 as a consequence.
+			</div>
+			<div id="demo">
+<textarea rows="20" cols="80" id="code">
+# palindrome
+10 /.*/$0;20;yes,no/
+20 /^(?<ZeroOrOneCharacter>.?;.*(?<yes>yes))|(?<FirstSameAsLast>(.)(?<middle>.*)\4;(?<goto>20)(?<remainder>.*))|(?<NotAPalindrome>.*(?<no>no)).*$/${yes}${no}${middle};${goto}${remainder}/
+30 /^(?<output>[^;]+);.*/${output}/
+</textarea>
+				<div class="tabBar">
+					<div class="actions">
+						<input type="button" value="run" id="run"/><input type="button" value="debug" id="debug"/><input type="button" value="step" id="step"/><input type="button" value="continue" id="continue"/>
+					</div>
+					<ol class="section-headers">
+						<li>Input</li>
+						<li>Output</li>
+						<li>Debug Info</li>
+						<li>Trace</li>
+					</ol>
+				</div>
+				<div class="section-panes">
+					<div id="input"><textarea>racecar</textarea></div>
+					<div id="output"></div>
+					<div id="debugInfo"></div>
+					<div id="trace"></div>
+				</div>
+			</div>
+			<div id="about" class="content">
+				<h2>About</h2>
+				<p>
+					T-Regs was designed by <a href="twitter.com/mathiasbaert">@mathiasbaert</a> and fits in a long tradition of <a href="esolang.org">Esoteric Programming Languages</a> of which is said 
+				</p>
+				<blockquote>
+					Some languages are designed to solve a problem. Others are designed to prove a point. &mdash; Dennis M. Ritchie <a href="#footnote1" class="footnote">1</a>
+				</blockquote>
+				<h2>Thanks</h2>
+				<p>
+					Several existing libraries made this implementation rather easy.
+				</p>
+				<ol>
+					<li>The extended Regular Expressions syntax was delivered by the excellent <a href="http://xregexp.com/"><em>xregexp</em></a> by <a href="#@levithan">Steven Levithan</a>.</li>
+					<li>The beautiful editor is <a href="#"><em>CodeMirror</em></a> by JavaScript genius <a href="#">Marijn Haverbeke</a>.</li>
+				</ol>
+				<p class="footnote"><a id="footnote1">1</a> He said this in fact about a whole other class of languages, but let us ignore the facts for a moment.</p>
+			</div>
+		</div>
+	</body>
+</html>

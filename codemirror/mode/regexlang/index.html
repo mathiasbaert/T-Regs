@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <title>CodeMirror: JavaScript mode</title>
+    <link rel="stylesheet" href="../../lib/codemirror.css">
+    <script src="../../lib/codemirror.js"></script>
+    <script src="regexlang.js"></script>
+    <link rel="stylesheet" href="../../doc/docs.css">
+    <style type="text/css">.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}</style>
+  </head>
+  <body>
+    <h1>CodeMirror: RegexLang mode</h1>
+
+<div><textarea id="code" name="code">
+# demo code
+# palindrome
+10 /.*/racecar;20;yes,no/
+20 /^(?<ZeroOrOneCharacter>.?;.*(?<yes>yes))|(?<FirstSameAsLast>(.)(?<middle>.*)\\4;(?<goto>20)(?<remainder>.*))|(?<NotAPalindrome>.*(?<no>no)).*$/${yes}${no}${middle};${goto}${remainder}/
+30 /^(?<output>[^;]+);.*/${output}/
+</textarea></div>
+
+    <script>
+      var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+		mode: 'regexlang',
+        lineNumbers: true,
+		lineWrapping : true,
+      });
+    </script>
+
+    <p><strong>MIME types defined:</strong> <code>text/x-regexlang</code>.</p>
+  </body>
+</html>

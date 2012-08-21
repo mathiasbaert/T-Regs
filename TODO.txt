@@ -1,12 +1,9 @@
 ﻿BUGS
 
 FEATURES
-- flags!  10 /.*/AA/gi
 - pages
   - index
-  - spec
   - about / credits / licence
-- hosting on github
 - gui
   - logo ///
   - font

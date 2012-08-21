@@ -9,6 +9,7 @@
 				/                     \
 					(?<replace>[^/]*) \
 				/                     \
+					(?<flags>[sngim]*)        \
 			$', 'x');
 			
 		var Line = function(number, text) {
@@ -18,7 +19,7 @@
 			}
 			this.number = number;
 			this.label = Number(match.label);
-			this.find = XRegExp(match.find||"");
+			this.find = XRegExp(match.find||"", match.flags||"");
 			this.replace = match.replace||"";
 		}
 		Line.prototype.run = function(text) {

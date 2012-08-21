@@ -110,24 +110,10 @@
 				<div><code>10 /.*/<em>Hello World</em>/</code></div>
 				<h3>These are separated by <em>slashes</em></h3>
 				<div><code>10 <em>/</em>.*<em>/</em>Hello World<em>/</em></code></div>
-				<h2>Regular Expressions Specifics</h2>
-				<h3>The Regex dialect</h3>
-				<p>used in this implementation is the one as implemented by <a href="http://xregexp.com/">xregexp</a>.</p>
-				<p>The important thing to know is that it has named captures which are used like this:</p>
-				<div>
-<code># given an input "3 + 4"
-10 /^<em>(?&lt;left></em>\d+<em>)</em>\s*(?&lt;operator>[-+\/*])\s*(?&lt;right>\d+)$/<br>${right}${operator}<em>${left}</em>/</code>
-				</div>
-				<p>But of course nameless captures are equally fine.</p>
-				<div>
-<code># given an input "3 + 4"
-10 /^<em>(</em>\d+<em>)</em>\s*([-+\/*])\s*(\d+)$/$3$2<em>$1</em>/</code>
-				</div>
-				<h3>Flags</h3>
-				<p>There is no option to set flags.</p>
-				<p>TODO: add flags!</p>
-				<div><code></code></div>
-				<h2>Program flow</h2>
+				<h3>and optionally followed by <em>flags</em></h3>
+				<div><code>10 /^(?&lt;greetings>h(a?i|ello)).*$/${greetings} World/<em>in</em></code></div>
+				
+								<h2>Program flow</h2>
 				<h3>The lines in a program are executed in order of their numerical label.</h3>
 				<p>The program</p>
 				<div>
@@ -149,6 +135,92 @@
 # output: "hello world"</code>
 				</div>
 				<p>In this example at label 20 the value "40" is captured with name goto and the program will jump to label 40 as a consequence.
+
+				<h2>Regular Expressions Specifics</h2>
+				<h3>The Regex dialect</h3>
+				<p>used in this implementation is the one as implemented by <a href="http://xregexp.com/">xregexp</a>.</p>
+				<p>The important thing to know is that it has named captures which are used like this:</p>
+				<div>
+<code># given an input "3 + 4"
+10 /^<em>(?&lt;left></em>\d+<em>)</em>\s*(?&lt;operator>[-+\/*])\s*(?&lt;right>\d+)$/<br>${right}${operator}<em>${left}</em>/</code>
+				</div>
+				<p>But of course nameless captures are equally fine.</p>
+				<div>
+<code># given an input "3 + 4"
+10 /^<em>(</em>\d+<em>)</em>\s*([-+\/*])\s*(\d+)$/$3$2<em>$1</em>/</code>
+				</div>
+				<h3>Matching behaviour</h3>
+				<p>Be default the regular expression is case sensitive and only applied once</p>
+				<div>
+<code># input "aaaa"
+10 /<em>a</em>/<em>b</em>/
+# results in "<em>b</em>aaa"</code>
+				</div>
+				<div>
+<code># input "AAAA"
+10 /<em>a</em>/<em>b</em>/
+# results in "AAAA"</code>
+				</div>
+				<h3>By setting <em>flags</em> the matching behaviour can be modified.</h3>
+				<h3><em>g</em> is for <em>global</em></h3>
+				<div>
+<code># input "aaaa"
+10 /a/b/<em>g</em>
+# results in "<em>bbbb</em>"</code>
+				</div>
+				<h3><em>i</em> is for <em>ignore case</em></h3>
+				<div>
+<code># input "AAAA"
+10 /a/b/<em>i</em>
+# results in "<em>b</em>AAA"</code>
+				</div>
+				<h3><em>m</em> is for <em>multiline anchors</em></h3>
+				<p>
+					Which makes <em>^</em> and <em>$</em> match at the begining and end of lines, rather than at the begining and end of the whole string.
+					So this:
+				<div>
+<code># input "aa\naa"
+10 /<em>^</em>a/b/g<em>m</em>
+# results in "<em>b</em>a\n<em>b</em>a</code>
+				</div>
+				<p>instead of this:</p>
+				<div>
+<code># input "aa\naa"
+10 /^a/b/g
+# results in "<em>b</em>a\naa"</code>
+				</div>
+				<h3><em>n</em> is for <em>explicit capture</em></h3>
+				<p>Making only named groups capturing groups.</p>
+				<p>
+					In the following example the <em>second group</em> does not capture.
+					This is a great technique for writing highly performant T-Regs
+					and is widely used in enterprise applications.
+				</p>
+				<div><code>10 /^(?&lt;greetings>H<em>(</em>a?i|ello<em>)</em>).*$/${greetings} World/<em>n</em></code></div>
+				<p>The above is basically a shorthand for this:</p>
+				<div><code>10 /^(?&lt;greetings>H<em>(?:</em>a?i|ello<em>)</em>).*$/${greetings} World/</code></div>
+				<h3><em>s</em> is for <em>singleline</em></h3>
+				<p>
+					where dot matches all characters, including linebreaks.
+					So we get this:
+				</p>
+				<div>
+<code># input "aaa\nbbb"
+10 /./c/g<em>s</em>
+# results in "<em>ccccccc</em>"</code>
+				</div>
+				<p>Instead of this:</p>
+				<div>
+<code># input "aaa\nbbb"
+10 /./c/g
+# results in "<em>ccc</em>\n<em>ccc</em>"</code>
+				</div>
+				<h3>For more information on regular expressions we recommend</h3>
+				<p>
+					<a href="http://www.regular-expressions.info/">
+						http://www.regular-expressions.info/
+					</a>
+				</p>
 			</div>
 			<div id="demo">
 <textarea rows="20" cols="80" id="code">

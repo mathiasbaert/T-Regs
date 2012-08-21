@@ -1,4 +1,6 @@
 ﻿BUGS
+- escaped / in regex results in syntax error anyway
+- output: white-space:pre
 
 FEATURES
 - pages
@@ -8,6 +10,7 @@ FEATURES
   - logo ///
   - font
   - nicer buttons for run, debug, step, continue
+  - make top navbar stick to top of page
 - demo code:
   - load a demo by clicking
   - palindrome checker

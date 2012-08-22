@@ -4,3 +4,6 @@
 [submodule "lib/jquery"]
 	path = lib/jquery
 	url = https://github.com/jquery/qunit.git
+[submodule "lib/codemirror"]
+	path = lib/codemirror
+	url = https://github.com/marijnh/CodeMirror.git

@@ -1,5 +1,6 @@
 ﻿BUGS
 - output: white-space:pre
+- input and output don't have the same font-size
 
 FEATURES
 - pages
@@ -16,6 +17,8 @@ FEATURES
   - prime numbers
   - hello world
   - Object Oriented T-Regs (manipulate JSON)
+  - 99 bottles of beer
+  - Fibonacci sequence
 - errors: 
   - regex errors and regexlang errors
   - label not found errors

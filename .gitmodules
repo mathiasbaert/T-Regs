@@ -7,3 +7,6 @@
 [submodule "lib/codemirror"]
 	path = lib/codemirror
 	url = https://github.com/marijnh/CodeMirror.git
+[submodule "lib/xregexp"]
+	path = lib/xregexp
+	url = https://github.com/slevithan/xregexp.git

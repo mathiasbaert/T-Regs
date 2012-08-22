@@ -218,3 +218,12 @@ td.undefined {
 	font-style:italic;
 	color:#999;
 }
+
+.content blockquote {
+	color:#C22;
+	margin:20px 0 0 20px;
+	padding:0 0 0 10px;
+	border-left:7px solid;
+	font-style:italic;
+	font-size:20px;
+}

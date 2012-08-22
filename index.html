@@ -14,15 +14,6 @@
 		<script src="executionstate.js"></script>
 		<script src="program.js"></script>
 		<script src="main.js"></script>
-		<script>
-
-			// IF equals
-			// leftparameter,rightparameter;return true,return false;global variables
-			// 100  /^(?:(?:[^,]+,\1;(?<gotoiftrue>\d+))|(?:[^;]+;\d+,(?<gotoiffalse>\d+)));.*$/$gotoiftrue$gotoiffalse;$<context>/
-			// 110  /^(?<goto>\d+);(?<context>.*)$/$<context>/
-
-
-		</script>
 		<link rel="stylesheet" href="lib/codemirror/lib/codemirror.css">
 		<link rel="stylesheet" href="main.css">
 	</head>
@@ -80,8 +71,8 @@
 					<a href="#">Learn more about the syntax</a>
 				</p>
 				<p>
-					The T-Regs Language Commitee will soon set forth guidelines for the Certified T-Regs Programmer Initiative.<br>
-					Follow @ProgramTRegs for further information.
+					The T-Regs Language Commitee will soon set forth guidelines for the Certified T-Regs Programmer Initiative. 
+					Follow <a href="https://twitter.com/ProgramTRegs">@ProgramTRegs</a> for further information.
 				</p>
 			</div>
 			<div id="spec" class="content">
@@ -218,7 +209,7 @@
 				<h3>For more information on regular expressions we recommend</h3>
 				<p>
 					<a href="http://www.regular-expressions.info/">
-						http://www.regular-expressions.info/
+						regular-expressions.info
 					</a>
 				</p>
 			</div>
@@ -250,20 +241,29 @@
 			<div id="about" class="content">
 				<h2>About</h2>
 				<p>
-					T-Regs was designed by <a href="twitter.com/mathiasbaert">@mathiasbaert</a> and fits in a long tradition of <a href="esolang.org">Esoteric Programming Languages</a> of which is said 
+					T-Regs was designed by <a href="https://twitter.com/mathiasbaert">@mathiasbaert</a> and fits in a long tradition of <a href="https://esolangs.org">Esoteric Programming Languages</a> of which is said 
 				</p>
-				<blockquote>
-					Some languages are designed to solve a problem. Others are designed to prove a point. &mdash; Dennis M. Ritchie <a href="#footnote1" class="footnote">1</a>
-				</blockquote>
+				<div>
+					<blockquote>
+						Some languages are designed to solve a problem. <br>
+						Others are designed to prove a point. <br>
+						&mdash; Dennis M. Ritchie 
+						<a href="#footnote1" class="footnote">1</a>
+					</blockquote>
+				</div>
+				
 				<h2>Thanks</h2>
 				<p>
 					Several existing libraries made this implementation rather easy.
 				</p>
 				<ol>
-					<li>The extended Regular Expressions syntax was delivered by the excellent <a href="http://xregexp.com/"><em>xregexp</em></a> by <a href="#@levithan">Steven Levithan</a>.</li>
-					<li>The beautiful editor is <a href="#"><em>CodeMirror</em></a> by JavaScript genius <a href="#">Marijn Haverbeke</a>.</li>
+					<li>The extended Regular Expressions syntax was delivered by the excellent <a href="http://xregexp.com/"><em>xregexp</em></a> by <a href="https://twitter.com/slevithan">Steven Levithan</a>.</li>
+					<li>The beautiful editor is <a href="#"><em>CodeMirror</em></a> by <a href="https://twitter.com/marijnjh">Marijn Haverbeke</a>.</li>
 				</ol>
 				<p class="footnote"><a id="footnote1">1</a> He said this in fact about a whole other class of languages, but let us ignore the facts for a moment.</p>
+				
+				<h2>Prior art</h2>
+				<p>&hellip;</p>
 			</div>
 		</div>
 	</body>

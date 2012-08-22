@@ -1,25 +1,31 @@
 ﻿var Program = (function() {
 	var Line = (function() {
 		var linePattern = XRegExp(
-			'^                        \
-				(?<label>\\d+)        \
-				\\s*                  \
-				/                     \
-					(?<find>[^/]*)    \
-				/                     \
-					(?<replace>[^/]*) \
-				/                     \
-					(?<flags>[sngim]*)        \
-			$', 'x');
+			'^                               \
+				(?<label>\\d+)               \
+				\\s*                         \
+				/                            \
+					(?<find>(\\/|[^/])*)     \
+				/                            \
+					(?<replace>(\\/|[^/])*)  \
+				/                            \
+					(?<flags>[sngim]*)       \
+			$', 'xn');
 			
 		var Line = function(number, text) {
 			var match = linePattern.exec(text);
 			if (!match) {
-				throw ("This is not valid syntax: \""+text+"\"");
+				this.error = "This is not valid syntax: \""+text+"\"";
+				return;
 			}
 			this.number = number;
 			this.label = Number(match.label);
-			this.find = XRegExp(match.find||"", match.flags||"");
+			try {
+				this.find = XRegExp(match.find||"", match.flags||"");
+			} catch (e) {
+				console.log(e);
+				this.error = e.message;
+			}
 			this.replace = match.replace||"";
 		}
 		Line.prototype.run = function(text) {
@@ -47,6 +53,8 @@
 
 	var Program = function(code) {
 		var lineCounter = 0;
+		
+		var errors = this.errors = [];
 
 		this.lines = code
 			.split("\n")
@@ -55,9 +63,18 @@
 				function(line) {return line.text.length==0 || line.text.startsWith("#")}
 			)
 			.map(function(line) {
-				return new Line(line.number, line.text);
+				var line = new Line(line.number, line.text);
+				if (line.error) {
+					errors.push(line.error);
+				}
+				return line;
 			})
 			.sortBy("label");
+			
+		if (this.errors.length) {
+			this.lines = [];
+			return;
+		}
 			
 		this.lookupByLabel = {};
 		this.lookupByLineNumber = {};

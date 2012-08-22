@@ -1,5 +1,4 @@
 ﻿BUGS
-- escaped / in regex results in syntax error anyway
 - output: white-space:pre
 
 FEATURES
@@ -26,5 +25,3 @@ FEATURES
 - regex syntax highlighting
 - stop button
 - actual example of adding 2 numbers on the main page
-- git
-  - include external libs as submodules

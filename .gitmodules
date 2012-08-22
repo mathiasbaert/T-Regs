@@ -1,12 +1,12 @@
 [submodule "lib/qunit"]
 	path = lib/qunit
 	url = https://github.com/jquery/qunit.git
-[submodule "lib/jquery"]
-	path = lib/jquery
-	url = https://github.com/jquery/qunit.git
 [submodule "lib/codemirror"]
 	path = lib/codemirror
 	url = https://github.com/marijnh/CodeMirror.git
 [submodule "lib/xregexp"]
 	path = lib/xregexp
 	url = https://github.com/slevithan/xregexp.git
+[submodule "lib/jquery"]
+	path = lib/jquery
+	url = https://github.com/jquery/jquery.git

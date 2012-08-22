@@ -7,3 +7,6 @@
 [submodule "lib/xregexp"]
 	path = lib/xregexp
 	url = https://github.com/slevithan/xregexp.git
+[submodule "lib/jquery"]
+	path = lib/jquery
+	url = https://github.com/jquery/jquery.git

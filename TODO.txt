@@ -3,7 +3,9 @@
 FEATURES
 - pages
   - index
-  - challenge!: a quine has not yet been written
+  - demo 
+    - challenge!: a quine has not yet been written
+  - interpreter
   - about / credits / licence
 - gui
   - logo ///

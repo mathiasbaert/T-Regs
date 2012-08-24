@@ -213,11 +213,12 @@ th {
 	text-align:left;
 	padding-left:5px;
 	width:1%;
+	white-space:nowrap
 }
 th[colspan] {
 	border-bottom:solid 1px;
 }
-td {
+td span {
 	background:#F0F0F0;
 	white-space:pre;
 }

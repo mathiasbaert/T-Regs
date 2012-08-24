@@ -25,7 +25,6 @@ FEATURES
   - label not found errors
 - infinite loop detection
 - in debugmode: if current tab is trace, don't switch focus to debuginfo on step or continue
-- in debuginfo: clearly show spaces
 - regex syntax highlighting
 - stop button
 - actual example of adding 2 numbers on the main page

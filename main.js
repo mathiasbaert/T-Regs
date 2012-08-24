@@ -96,7 +96,7 @@ $(document).ready(function($) {
 					<tr><th colspan="2">Matches</th></tr>';
 			for (var i=0, l=executionState.matches.length; i<l; i++) {
 				var match = executionState.matches[i];
-				html += '<tr><th>'+(l>10 && match.index<=9 ? ' ' : '')+match.index+' '+(match.name||'')+'</th><td class="'+(match.matches===undefined?'undefined':'')+'">'+match.matches+'</td></tr>';				
+				html += '<tr><th>'+(l>10 && match.index<=9 ? ' ' : '')+match.index+' '+(match.name||'')+'</th><td class="'+(match.matches===undefined?'undefined':'')+'"><span>'+match.matches+'</span></td></tr>';				
 			}
 			html +=	'</table>';
 		}
@@ -106,7 +106,7 @@ $(document).ready(function($) {
 	var updateTrace = function(program) {
 		html = '<table>';
 		for (var i=0, l=program.trace.length; i<l; i++) {
-			html += '<tr><th>'+program.trace[i].label+'</th><td>'+program.trace[i].text+'</td></tr>';				
+			html += '<tr><th>'+program.trace[i].label+'</th><td><span>'+program.trace[i].text+'</span></td></tr>';				
 		}
 		html +=	'</table>';
 		$trace.html(html);

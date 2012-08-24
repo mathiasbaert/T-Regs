@@ -1,10 +1,9 @@
 ﻿BUGS
-- output: white-space:pre
-- input and output don't have the same font-size
 
 FEATURES
 - pages
   - index
+  - challenge!: a quine has not yet been written
   - about / credits / licence
 - gui
   - logo ///
@@ -28,3 +27,6 @@ FEATURES
 - regex syntax highlighting
 - stop button
 - actual example of adding 2 numbers on the main page
+- favicon
+- keyboard shortcuts
+  - Crtl + Enter -> run

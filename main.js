@@ -82,7 +82,7 @@ $(document).ready(function($) {
 	var editor = new Editor($code[0])
 	var heightUsedByOtherPageElements = $menuBar.height() + $debugBar.height() + $sectionPanes.height();
 	editor.useAvailableHeight(heightUsedByOtherPageElements);
-	mainSections.Demo.addOnShow(editor.refresh.bind(editor));
+	mainSections.Interpreter.addOnShow(editor.refresh.bind(editor));
 
 	var buttons = new ButtonManager("run debug step continue");
 

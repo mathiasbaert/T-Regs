@@ -7,11 +7,6 @@ FEATURES
     - challenge!: a quine has not yet been written
   - interpreter
   - about / credits / licence
-- gui
-  - logo ///
-  - font
-  - nicer buttons for run, debug, step, continue
-  - make top navbar stick to top of page
 - demo code:
   - load a demo by clicking
   - palindrome checker
@@ -31,3 +26,8 @@ FEATURES
 - favicon
 - keyboard shortcuts
   - Crtl + Enter -> run
+  - gui
+  - logo ///
+  - font
+  - nicer buttons for run, debug, step, continue
+  - make top navbar stick to top of page

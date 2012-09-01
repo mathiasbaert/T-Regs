@@ -72,7 +72,7 @@ body {
 }
 
 html {
-	background:#FCFCDA;
+	background:#F4F7DE;
 }
 
 .content {
@@ -115,7 +115,7 @@ html {
 	list-style-position:inside;
 }
 
-#demo {
+#interpreter {
 	background:#FFF;
 }
 

@@ -24,7 +24,10 @@
 				this.find = XRegExp(match.find||"", match.flags||"");
 			} catch (e) {
 				console.log(e);
-				this.error = e.message;
+				this.error = {
+					message : e.message,
+					lineNumber : this.number
+				};
 			}
 			this.replace = match.replace||"";
 		}

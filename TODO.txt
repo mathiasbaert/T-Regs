@@ -1,4 +1,11 @@
-﻿BUGS
+﻿##  ### ### ### ##  ###     ##  ### #   ###  #  ### ###
+# # #   #   # # # # #       # # #   #   #   # # #   #  
+##  ##  ##  # # ##  ##      ##  ##  #   ##  ### ### ## 
+# # #   #   # # # # #       # # #   #   #   # #   # #  
+##  ### #   ### # # ###     # # ### ### ### # # ### ###
+
+BUGS
+- syntax highlighting has gone missing
 
 FEATURES
 - pages
@@ -6,23 +13,29 @@ FEATURES
   - demo 
     - challenge!: a quine has not yet been written
   - interpreter
-  - about / credits / licence
+  - about / prior art
 - demo code:
-  - load a demo by clicking
-  - palindrome checker
   - prime numbers
-  - hello world
   - Object Oriented T-Regs (manipulate JSON)
   - 99 bottles of beer
   - Fibonacci sequence
+  - actual example of adding 2 numbers on the main page
 - errors: 
   - regex errors and regexlang errors
+  - label used twice errors
   - label not found errors
 - infinite loop detection
 - in debugmode: if current tab is trace, don't switch focus to debuginfo on step or continue
+
+ #  ### ### ### ##      ##  ### #   ###  #  ### ###
+# # #    #  #   # #     # # #   #   #   # # #   #  
+### ##   #  ##  ##      ##  ##  #   ##  ### ### ## 
+# # #    #  #   # #     # # #   #   #   # #   # #  
+# # #    #  ### # #     # # ### ### ### # # ### ###
+
+FEATURES
 - regex syntax highlighting
 - stop button
-- actual example of adding 2 numbers on the main page
 - favicon
 - keyboard shortcuts
   - Crtl + Enter -> run

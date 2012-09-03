@@ -43,7 +43,10 @@
 		this.editor.setLineClass(lineNumber, "activeline");
 	};
 
-
+	Editor.prototype.setValue = function(value) {
+		return this.editor.setValue(value);
+	};
+	
 	Editor.prototype.getValue = function() {
 		return this.editor.getValue();
 	};

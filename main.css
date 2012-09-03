@@ -93,10 +93,20 @@ html {
 	font-size:18px;
 	padding-top:15px;
 }
+.content h3 a {
+	float:right;
+}
 .content p {
 	padding-top:10px;
 }
 
+.content a,
+.content a:link,
+.content a:hover,
+.content a:active,
+.content a:visited {
+	color:#C22;
+}
 .content code {
 	white-space:pre;
 	background:#FFF;
@@ -104,6 +114,7 @@ html {
 	padding:4px;
 	box-shadow:0 0 3px #CCC;
 	margin-top:10px;
+	overflow-x:auto;
 }
 .content em {
 	color:#C22;

@@ -13,6 +13,7 @@
 		<script src="editor.js"></script>
 		<script src="executionstate.js"></script>
 		<script src="program.js"></script>
+		<script src="interpreter.js"></script>
 		<script src="main.js"></script>
 		<link rel="stylesheet" href="lib/codemirror/lib/codemirror.css">
 		<link rel="stylesheet" href="main.css">
@@ -43,21 +44,29 @@
 				<h2>Quick examples</h2>
 				<h3>Hello world</h3>
 				<p>
-					See, pretty straightforward. <a href="#">You can try this out right here.</a>
+					See, pretty straightforward. <a href="#" data-load-demo="helloWorld">You can try this out right here.</a>
 				</p>
 				<div><code>10 /.*/Hello world!/</code></div>
-				<h3>Adding 2 numbers</h3>
-				<p>This is admittedly more advanced, but will become clear enough once you <a href="#">step through it in the online interpreter.</a></p>
+				<h3>Subtracting 2 numbers</h3>
+				<p>This is admittedly more advanced, but will become clear enough once you <a href="#" data-load-demo="subtractingTwoNumbers">step through it in the online interpreter.</a></p>
 				<div>
-<code>1    /.*/$0;1000/
+<code id="subtractingTwoNumbers" data-input="12-5"># Goto main program (skip functions)
+1    /.*/$0;1000/
 2    /^(.*?);(?&lt;goto>1000)$/$1/
+
+# Minus 1
+#    input:  number;returnlabel;rest
+#    output: result;rest
 10   /^(\d+)(;.*)$/$1;15$2/
-15   /^([1-9]\d*?-*)0(?=0*;)(.*(?&lt;goto>15).*)/$1-$3/
+15   /^(?&lt;left>[1-9]\d*?-*)0(?=0*;)(?&lt;right>.*(?&lt;goto>15).*)/${left}-${right}/
 20   /(\d*);15(;.*)/$1;0123456789$2/
-25   /^(\d*)(\d)(-*;\d*(\d)\2.*)(;.*)$/$1$4$3$5/
+25   /^(\d*)(?&lt;lastDigit>\d)(?&lt;lookup>-*;\d*(?&lt;newLastDigit>\d)\2.*)(;.*)$/$1${newLastDigit}${lookup}$5/
 30   /(\d*);\d+(;.*)/$1;35$2/
-35   /-(?=-*;)(.*(?&lt;goto>35).*)/9$2/
+35   /-(?=-*;)(?&lt;right>.*(?&lt;goto>35).*)/9${right}/
 40   /^(\d*);[^;]+;(?&lt;goto>\d+)(;.*)$/$1$3/
+
+# Main calculate "a - b" for positive integers
+# infinite loop when b>9
 1000 /^(\d+)\s*-\s*(\d+)$/$1;$2;0;1050/
 1003 /^(\d+);(\d+);\2;(?&lt;goto>\d+)$/$1;$2/
 1005 /^(\d+);(\d+).*$/10;$1;1020;$2/
@@ -69,7 +78,7 @@
 1050 /^(\d+).*$/$1/</code>
 				</div>
 				<p>
-					<a href="#">Learn more about the syntax</a>
+					<a href="#spec">Learn more about the syntax</a>
 				</p>
 				<p>
 					The T-Regs Language Commitee will soon set forth guidelines for the Certified T-Regs Programmer Initiative. 
@@ -142,7 +151,7 @@
 10 /^<em>(</em>\d+<em>)</em>\s*([-+\/*])\s*(\d+)$/$3$2<em>$1</em>/</code>
 				</div>
 				<h3>Matching behaviour</h3>
-				<p>Be default the regular expression is case sensitive and only applied once</p>
+				<p>Be default the regular expression is case sensitive and applied only once</p>
 				<div>
 <code># input "aaaa"
 10 /<em>a</em>/<em>b</em>/
@@ -216,26 +225,32 @@
 			</div>
 			<div id="demo" class="content">
 				<h2><em>T-Regs</em> demonstration code</h2>
-				<h3>Hello world <a href="#" data-load-demo="">run</a></h3>
-				<div><code>10 /.*/Hello world!/</code></div>
-				<h3>Palindrome checker</h3>
-				<div><code>10 /.*/Hello world!/</code></div>
-				<h3>Prime numbers</h3>
-				<div><code>10 /.*/Hello world!/</code></div>
-				<h3>Object Oriented T-Regs (manipulate JSON)</h3>
-				<div><code>10 /.*/Hello world!/</code></div>
-				<h3>99 bottles of beer</h3>
-				<div><code>10 /.*/Hello world!/</code></div>
-				<h3>Fibonacci sequence</h3>
-				<div><code>10 /.*/Hello world!/</code></div>
+				
+				<h3>Hello world <a href="#" data-load-demo="helloWorld">run</a></h3>
+				<div><code id="helloWorld">10 /.*/Hello world!/</code></div>
+				
+				<h3>Palindrome checker <a href="#" data-load-demo="palindrome">run</a></h3>
+				<div>
+<code id="palindrome" data-input="racecar"># palindrome
+10 /.*/$0;20;yes,no/
+20 /^(?&lt;ZeroOrOneCharacter>.?;.*(?&lt;yes>yes))|(?&lt;FirstSameAsLast>(.)(?&lt;middle>.*)\4;(?&lt;goto>20)(?&lt;remainder>.*))|(?&lt;NotAPalindrome>.*(?&lt;no>no)).*$/${yes}${no}${middle};${goto}${remainder}/
+30 /^(?&lt;output>[^;]+);.*/${output}/</code>
+				</div>
+				
+				<h3>Prime numbers <a href="#" data-load-demo="primeNumbers">run</a></h3>
+				<div><code id="primeNumbers">10 /.*/Hello world!/</code></div>
+				
+				<h3>Object Oriented T-Regs (manipulate JSON) <a href="#" data-load-demo="oo">run</a></h3>
+				<div><code id="oo">10 /.*/Hello world!/</code></div>
+				
+				<h3>99 bottles of beer <a href="#" data-load-demo="bottlesOfBeer">run</a></h3>
+				<div><code id="bottlesOfBeer">10 /.*/Hello world!/</code></div>
+				
+				<h3>Fibonacci sequence <a href="#" data-load-demo="fibonacci">run</a></h3>
+				<div><code id="fibonacci">10 /.*/Hello world!/</code></div>
 			</div>
 			<div id="interpreter">
-<textarea rows="20" cols="80" id="code">
-# palindrome
-10 /.*/$0;20;yes,no/
-20 /^(?<ZeroOrOneCharacter>.?;.*(?<yes>yes))|(?<FirstSameAsLast>(.)(?<middle>.*)\4;(?<goto>20)(?<remainder>.*))|(?<NotAPalindrome>.*(?<no>no)).*$/${yes}${no}${middle};${goto}${remainder}/
-30 /^(?<output>[^;]+);.*/${output}/
-</textarea>
+				<textarea rows="20" cols="80" id="code"></textarea>
 				<div class="tabBar">
 					<div class="actions">
 						<input type="button" value="run" id="run"/><input type="button" value="debug" id="debug"/><input type="button" value="step" id="step"/><input type="button" value="continue" id="continue"/>

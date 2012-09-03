@@ -63,14 +63,15 @@
 25   /^(\d*)(?&lt;lastDigit>\d)(?&lt;lookup>-*;\d*(?&lt;newLastDigit>\d)\2.*)(;.*)$/$1${newLastDigit}${lookup}$5/
 30   /(\d*);\d+(;.*)/$1;35$2/
 35   /-(?=-*;)(?&lt;right>.*(?&lt;goto>35).*)/9${right}/
-40   /^(\d*);[^;]+;(?&lt;goto>\d+)(;.*)$/$1$3/
+40   /^0+([^0;])/$1/
+45   /^(\d*);[^;]+;(?&lt;goto>\d+)(;.*)$/$1$3/
 
 # Main calculate "a - b" for positive integers
 # infinite loop when b>9
 1000 /^(\d+)\s*-\s*(\d+)$/$1;$2;0;1050/
-1003 /^(\d+);(\d+);\2;(?&lt;goto>\d+)$/$1;$2/
-1005 /^(\d+);(\d+).*$/10;$1;1020;$2/
-1010 /^(?&lt;goto>10);(.*)$/$2/
+1005 /^(\d+);(\d+);\2;(?&lt;goto>\d+)$/$1;$2/
+1010 /^(\d+);(\d+).*$/10;$1;1020;$2/
+1015 /^(?&lt;goto>10);(.*)$/$2/
 1020 /^(\d+);(\d+)$/10;$2;1040;$1/
 1030 /^(?&lt;goto>10);(.*)$/$2/
 1040 /^(\d+);(\d+)$/$2-$1;1000/
@@ -80,6 +81,7 @@
 				<p>
 					<a href="#spec">Learn more about the syntax</a>
 				</p>
+				<h2>Taking it further</h2>
 				<p>
 					The T-Regs Language Commitee will soon set forth guidelines for the Certified T-Regs Programmer Initiative. 
 					Follow <a href="https://twitter.com/ProgramTRegs">@ProgramTRegs</a> for further information.

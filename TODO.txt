@@ -9,10 +9,8 @@ BUGS
 
 FEATURES
 - pages
-  - index
   - demo 
     - challenge!: a quine has not yet been written
-  - interpreter
   - about / prior art
 - demo code:
   - prime numbers

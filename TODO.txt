@@ -7,8 +7,6 @@
 BUGS
 
 FEATURES
-- pages
-  - about / prior art
 - demo code:
   - prime numbers
   - Object Oriented T-Regs (manipulate JSON)

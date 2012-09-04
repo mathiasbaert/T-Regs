@@ -83,6 +83,7 @@ html {
 	padding:0 0 0 200px;
 	max-width:600px;
 	margin:0;
+	line-height:1.3em;
 }
 
 .content h2 {
@@ -124,6 +125,20 @@ html {
 }
 .content  ol {
 	list-style-position:inside;
+}
+
+.content a.footnote,
+.content p.footnote a {
+	font-size:.7em;
+	vertical-align:top;
+}
+
+.content p.footnote {
+	margin-top:40px;
+	padding-left:210px;
+}
+.content p.footnote a {
+	margin-left:-10px;
 }
 
 #interpreter {

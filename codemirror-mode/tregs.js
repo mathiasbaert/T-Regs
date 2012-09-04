@@ -1,4 +1,4 @@
-CodeMirror.defineMode("regexlang", function(config) {
+CodeMirror.defineMode("tregs", function(config) {
 	var Token = {
 		'Comment' : 'comment',
 		'LineNumber' : 'keyword',
@@ -72,4 +72,4 @@ CodeMirror.defineMode("regexlang", function(config) {
 	};
 });
 
-CodeMirror.defineMIME("text/x-regexlang", "regexlang");
+CodeMirror.defineMIME("text/x-tregs", "tregs");

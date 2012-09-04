@@ -2,14 +2,14 @@
 <html>
   <head>
     <title>CodeMirror: JavaScript mode</title>
-    <link rel="stylesheet" href="../../lib/codemirror.css">
-    <script src="../../lib/codemirror.js"></script>
-    <script src="regexlang.js"></script>
+    <link rel="stylesheet" href="../codemirror/lib/codemirror.css">
+    <script src="../codemirror/lib/codemirror.js"></script>
+    <script src="tregs.js"></script>
     <link rel="stylesheet" href="../../doc/docs.css">
     <style type="text/css">.CodeMirror {border-top: 1px solid black; border-bottom: 1px solid black;}</style>
   </head>
   <body>
-    <h1>CodeMirror: RegexLang mode</h1>
+    <h1>CodeMirror: T-Regs mode</h1>
 
 <div><textarea id="code" name="code">
 # demo code
@@ -21,12 +21,12 @@
 
     <script>
       var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-		mode: 'regexlang',
+		mode: 'tregs',
         lineNumbers: true,
 		lineWrapping : true,
       });
     </script>
 
-    <p><strong>MIME types defined:</strong> <code>text/x-regexlang</code>.</p>
+    <p><strong>MIME types defined:</strong> <code>text/x-tregs</code>.</p>
   </body>
 </html>

@@ -5,7 +5,6 @@
 ##  ### #   ### # # ###     # # ### ### ### # # ### ###
 
 BUGS
-- syntax highlighting has gone missing
 
 FEATURES
 - pages

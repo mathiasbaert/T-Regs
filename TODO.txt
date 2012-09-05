@@ -19,8 +19,7 @@ FEATURES
   - Fibonacci sequence
   - actual example of adding 2 numbers on the main page
 - errors: 
-  - label not found errors
-- infinite loop detection
+  - infinite loop detection
 - in debugmode: if current tab is trace, don't switch focus to debuginfo on step or continue
 
  #  ### ### ### ##      ##  ### #   ###  #  ### ###

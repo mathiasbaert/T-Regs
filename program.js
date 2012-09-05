@@ -175,6 +175,7 @@
 				startTrace.call(this, executionState.text);
 				startErrors.call(this);
 			}
+			var previousLabel;
 			if (executionState.executionMode==ExecutionMode.Step || 
 				executionState.executionMode==ExecutionMode.Continue) {
 				var label = executionState.label;
@@ -189,7 +190,17 @@
 				executionState.executionMode==ExecutionMode.Run || 
 				executionState.executionMode==ExecutionMode.Debug ||
 				executionState.executionMode==ExecutionMode.Continue)) {
-				while (executionState.hasLabel() && executionState.breakPoints.indexOf(this.lookupByLabel[executionState.label].line.number)==-1) {
+				while (true) {
+					if (!this.lookupByLabel[executionState.label]) {
+						error.call(this, new Error("There is no instruction with label \""+executionState.label+"\"", null, label));
+						break;
+					}
+					if (!(
+							executionState.hasLabel() && 
+							executionState.breakPoints.indexOf(this.lookupByLabel[executionState.label].line.number)==-1
+						)) {
+							break;
+					}
 					var label = executionState.label;
 					executionState = step.call(this, executionState);
 					if (executionState.error) {

@@ -238,8 +238,14 @@ th {
 	font-weight:bold;
 	text-align:left;
 	padding-left:5px;
+	white-space:nowrap;
 	width:1%;
-	white-space:nowrap
+}
+thead th {
+	border-bottom:solid 1px;
+}
+th + th {
+	width:auto;
 }
 th[colspan] {
 	border-bottom:solid 1px;

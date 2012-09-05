@@ -12,6 +12,7 @@ var Interpreter = function(container) {
 	var $output = container.find("#output");
 	var $debugInfo = container.find("#debugInfo");
 	var $trace = container.find("#trace");
+	var $errors = container.find("#errors");
 	
 	var debugSections = new Sections($(".section-headers li"), $(".section-panes > div"));
 	var $debugBar = container.find(".tabBar");
@@ -47,12 +48,26 @@ var Interpreter = function(container) {
 	};
 
 	var updateTrace = function(program) {
-		html = '<table>';
-		for (var i=0, l=program.trace.length; i<l; i++) {
-			html += '<tr><th>'+program.trace[i].label+'</th><td><span>'+program.trace[i].text+'</span></td></tr>';				
+		var html = "";
+		if (program.trace) {
+			html += '<table>';
+			for (var i=0, l=program.trace.length; i<l; i++) {
+				html += '<tr><th>'+program.trace[i].label+'</th><td><span>'+program.trace[i].text+'</span></td></tr>';				
+			}
+			html +=	'</table>';
 		}
-		html +=	'</table>';
 		$trace.html(html);
+	};
+	var updateErrors = function(program) {
+		var html = "";
+		if (program.errors) {
+			html += '<table><thead><tr><th>Label</th><th>Message</th></tr></thead><tbody>';
+			for (var i=0, l=program.errors.length; i<l; i++) {
+				html += '<tr><th>'+program.errors[i].label+'</th><td><span>'+program.errors[i].message+'</span></td></tr>';				
+			}
+			html +=	'</tbody></table>';
+		}
+		$errors.html(html);
 	};
 	
 	var InteractivityHandler = (function() {
@@ -66,6 +81,10 @@ var Interpreter = function(container) {
 
 			if (executionMode==ExecutionMode.Run || executionMode==ExecutionMode.Debug) {
 				program = new Program(editor.getValue());
+				if (program.errors.length) {
+					exitProgram(program);
+					return;
+				}
 				pendingExecutionState = new ExecutionState();
 				pendingExecutionState.text = $input.val();
 				$output.html("");
@@ -83,19 +102,15 @@ var Interpreter = function(container) {
 		var handleExecutionState = function(executionState) {
 			pendingExecutionState = executionState;
 
-			if (pendingExecutionState.completed) {
-				$output.html(pendingExecutionState.text);
-				pendingExecutionState = null;
-				buttons.enable("run debug");
-				debugSections.Output.show();
-			} else {
-				editor.setCurrentLine(pendingExecutionState.lineNumber);
-				buttons.enable("step continue");
-				debugSections.DebugInfo.show();
+			if (pendingExecutionState.completed || program.errors.length) {
+				exitProgram(program, pendingExecutionState);
+				return;
 			}
-
+		
+			editor.setCurrentLine(pendingExecutionState.lineNumber);
+			buttons.enable("step continue");
+			debugSections.DebugInfo.show();
 			updateDebugInfo(pendingExecutionState);
-			updateTrace(program);
 		}
 		
 		return {
@@ -103,7 +118,24 @@ var Interpreter = function(container) {
 			handleExecutionState : handleExecutionState
 		};
 	})();
+
+	var exitProgram = function(program, pendingExecutionState) {
+		updateTrace(program);
+
+		if (pendingExecutionState) {
+			$output.html(pendingExecutionState.text);
+			debugSections.Output.show();
+		}
+
+		if (program.errors.length) {
+			updateErrors(program);
+			debugSections.Errors.show();
+		}
+		
+		buttons.enable("run debug");
+	};
 	
+
 	var clearAll = function() {
 		$input.val("");
 		$output.html("");

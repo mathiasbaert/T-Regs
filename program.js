@@ -1,4 +1,10 @@
 ﻿var Program = (function() {
+	var Error = function(message, lineNumber, label) {
+		this.message = message;
+		this.lineNumber = lineNumber;
+		this.label = label;
+	};
+	
 	var Line = (function() {
 		var linePattern = XRegExp(
 			'^                               \
@@ -15,7 +21,7 @@
 		var Line = function(number, text) {
 			var match = linePattern.exec(text);
 			if (!match) {
-				this.error = "This is not valid syntax: \""+text+"\"";
+				this.error = new Error("This is not valid syntax: \""+text+"\"");
 				return;
 			}
 			this.number = number;
@@ -23,31 +29,35 @@
 			try {
 				this.find = XRegExp(match.find||"", match.flags||"");
 			} catch (e) {
-				console.log(e);
-				this.error = {
-					message : e.message,
-					lineNumber : this.number
-				};
+				this.error = new Error(e.message, this.number, this.label);
 			}
 			this.replace = match.replace||"";
 		}
 		Line.prototype.run = function(text) {
-			var matches = (this.find.exec(text)||{}),
-				captures = [],
-				captureNames = this.find.xregexp.captureNames||[];
+			var newText = text;
+			try {
+				var matches = (this.find.exec(text)||{}),
+					captures = [],
+					captureNames = this.find.xregexp.captureNames||[];
 
-			for(var i=0, l=captureNames.length; i<=l; i++) {
-				captures.push({
-					index : i,
-					name : captureNames[i-1],
-					matches : matches[i]
-				});
+				for(var i=0, l=captureNames.length; i<=l; i++) {
+					captures.push({
+						index : i,
+						name : captureNames[i-1],
+						matches : matches[i]
+					});
+				}
+				newText = text.replace(this.find, this.replace)
+			} catch (e) {
+				return {
+					error : new Error(e.message, this.number, this.label)
+				};
 			}
 			
 			return {
 				matches : captures,
 				'goto' : matches['goto'],
-				text : text.replace(this.find, this.replace)
+				text : newText
 			};
 		}
 		
@@ -82,17 +92,19 @@
 		this.lookupByLabel = {};
 		this.lookupByLineNumber = {};
 
-		for(var i=0; i<this.lines.length; i++) {
+		for(var i=0; i<this.lines.length && !this.errors.length; i++) {
 			if (this.lookupByLabel[this.lines[i].label]) {
-				throw("Line with Label \""+this.lines[i].label+"\" is defined more then once.");
+				this.errors.push(new Error("Line with Label \""+this.lines[i].label+"\" is defined more then once.", null, this.lines[i].label));
+			} 
+			else {
+				this.lookupByLabel[this.lines[i].label] = {
+					line : this.lines[i],
+					nextLabel : this.lines[i+1] ? this.lines[i+1].label : null
+				};	
+				this.lookupByLineNumber[this.lines[i].lineNumber] = {
+					line : this.lines[i]
+				};	
 			}
-			this.lookupByLabel[this.lines[i].label] = {
-				line : this.lines[i],
-				nextLabel : this.lines[i+1] ? this.lines[i+1].label : null
-			};	
-			this.lookupByLineNumber[this.lines[i].lineNumber] = {
-				line : this.lines[i]
-			};	
 		}
 	};
 	
@@ -102,6 +114,8 @@
 		var result = currentLine.run(executionState.text);
 
 		executionState.text = result.text;
+		executionState.error = result.error;
+		
 		setExecutionStateLabel.call(this, executionState, result.goto ? result.goto : this.lookupByLabel[currentLine.label].nextLabel);
 		if ( executionState.hasLabel() ) {
 			executionState.completed = false;
@@ -141,6 +155,14 @@
 	var trace = function(label, text) {
 		this.trace.push({label:label, text:text});
 	}
+
+	var startErrors = function() {
+		this.errors = [];
+	};
+	
+	var error = function(error) {
+		this.errors.push(error);
+	}
 	
 	Program.prototype.doContinue = function(executionState, executionStateHandler) {
 		if (this.lines.isEmpty() || executionState.completed) {
@@ -151,20 +173,31 @@
 				executionState.executionMode==ExecutionMode.Debug) {
 				setExecutionStateLabel.call(this, executionState, this.lines[0].label);
 				startTrace.call(this, executionState.text);
+				startErrors.call(this);
 			}
 			if (executionState.executionMode==ExecutionMode.Step || 
 				executionState.executionMode==ExecutionMode.Continue) {
 				var label = executionState.label;
 				executionState = step.call(this, executionState);
-				trace.call(this, label, executionState.text);
+				if (executionState.error) {
+					error.call(this, executionState.error);
+				} else {
+					trace.call(this, label, executionState.text);
+				}
 			}
-			if (executionState.executionMode==ExecutionMode.Run || 
+			if ((!this.errors || !this.errors.length) && (
+				executionState.executionMode==ExecutionMode.Run || 
 				executionState.executionMode==ExecutionMode.Debug ||
-				executionState.executionMode==ExecutionMode.Continue) {
+				executionState.executionMode==ExecutionMode.Continue)) {
 				while (executionState.hasLabel() && executionState.breakPoints.indexOf(this.lookupByLabel[executionState.label].line.number)==-1) {
-				var label = executionState.label;
-				executionState = step.call(this, executionState);
-				trace.call(this, label, executionState.text);
+					var label = executionState.label;
+					executionState = step.call(this, executionState);
+					if (executionState.error) {
+						error.call(this, executionState.error);
+						break;
+					} else {
+						trace.call(this, label, executionState.text);
+					}
 				}
 			}
 			if (executionState.executionMode==ExecutionMode.Debug ||

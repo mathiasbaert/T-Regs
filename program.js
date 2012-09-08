@@ -1,4 +1,6 @@
-﻿var Program = (function() {
+﻿XRegExp.install('natives');
+
+var Program = (function() {
 	var Error = function(message, lineNumber, label) {
 		this.message = message;
 		this.lineNumber = lineNumber;
@@ -7,15 +9,15 @@
 	
 	var Line = (function() {
 		var linePattern = XRegExp(
-			'^                               \
-				(?<label>\\d+)               \
-				\\s*                         \
-				/                            \
-					(?<find>(\\/|[^/])*)     \
-				/                            \
-					(?<replace>(\\/|[^/])*)  \
-				/                            \
-					(?<flags>[sngim]*)       \
+			'^                                 \
+				(?<label>\\d+)                 \
+				\\s*                           \
+				/                              \
+					(?<find>(\\\\/|[^/])*)     \
+				/                              \
+					(?<replace>(\\\\/|[^/])*)  \
+				/                              \
+					(?<flags>[sngim]*)         \
 			$', 'xn');
 			
 		var Line = function(number, text) {
@@ -31,7 +33,7 @@
 			} catch (e) {
 				this.error = new Error(e.message, this.number, this.label);
 			}
-			this.replace = match.replace||"";
+			this.replace = makeEscapedSpecialCharactersReal(match.replace||"");
 		}
 		Line.prototype.run = function(text) {
 			var newText = text;
@@ -60,6 +62,10 @@
 				text : newText
 			};
 		}
+		
+		var makeEscapedSpecialCharactersReal = function(text) {
+			return text.replace(/\\n/g, '\n');
+		};
 		
 		return Line;
 	})();

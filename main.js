@@ -1,6 +1,4 @@
-﻿XRegExp.install('natives');
-
-$(document).ready(function($) {
+﻿$(document).ready(function($) {
 	var mainSections = new Sections($("#menu a"), $("#mainSections > div"));
 
 	var $menuBar = $(".tabBar").first();

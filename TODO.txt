@@ -12,6 +12,7 @@ BUGS
 	- activeline
   
 FEATURES
+- in debugmode: if current tab is trace, don't switch focus to debuginfo on step or continue
 - demo code:
   - prime numbers
   - Object Oriented T-Regs (manipulate JSON)
@@ -20,7 +21,6 @@ FEATURES
   - actual example of adding 2 numbers on the main page
 - errors: 
   - infinite loop detection
-- in debugmode: if current tab is trace, don't switch focus to debuginfo on step or continue
 
  #  ### ### ### ##      ##  ### #   ###  #  ### ###
 # # #    #  #   # #     # # #   #   #   # # #   #  

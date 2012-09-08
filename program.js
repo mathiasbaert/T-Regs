@@ -191,7 +191,7 @@
 				executionState.executionMode==ExecutionMode.Debug ||
 				executionState.executionMode==ExecutionMode.Continue)) {
 				while (true) {
-					if (!this.lookupByLabel[executionState.label]) {
+					if (executionState.hasLabel() && !this.lookupByLabel[executionState.label]) {
 						error.call(this, new Error("There is no instruction with label \""+executionState.label+"\"", null, label));
 						break;
 					}

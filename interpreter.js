@@ -134,13 +134,19 @@ var Interpreter = function(container) {
 		
 		buttons.enable("run debug");
 	};
-	
-
-	var clearAll = function() {
+		
+	var reset = function() {
 		$input.val("");
 		$output.html("");
 		$debugInfo.html("");
 		$trace.html("");
+		$errors.html("");
+	
+		editor.clearCurrentLine();
+		editor.clearBreakPoints();
+
+		buttons.enable("run debug");
+		debugSections.Input.show();
 	};
 	
 	$run.click(InteractivityHandler.handleUserAction.fill(ExecutionMode.Run));
@@ -148,19 +154,16 @@ var Interpreter = function(container) {
 	$step.click(InteractivityHandler.handleUserAction.fill(ExecutionMode.Step));
 	$continue.click(InteractivityHandler.handleUserAction.fill(ExecutionMode.Continue));
 	
-	buttons.enable("run debug");
-	debugSections.Input.show();
-
+	reset();
 	
 	return  {
 		notifyBecameVisible : function() {
 			editor.refresh();
 		},
 		loadCode : function(code, input) {
-			clearAll();
+			reset();
 			editor.setValue(code);
 			$input.val(input||"");
-			debugSections.Input.show();
 		}
 	};
 };

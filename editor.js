@@ -30,6 +30,13 @@
 		}
 		return breakPoints;
 	};
+	
+	Editor.prototype.clearBreakPoints = function() {
+		var breakPoints = this.getBreakPoints();
+		for(var i=0, l=breakPoints.length; i<l; i++) {
+			this.editor.clearMarker(breakPoints[i]);
+		}
+	};	
 
 	Editor.prototype.clearCurrentLine = function() {
 		if (Object.isNumber(this.currentLine)) {

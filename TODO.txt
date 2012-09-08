@@ -5,11 +5,6 @@
 ##  ### #   ### # # ###     # # ### ### ### # # ### ###
 
 BUGS
-- reset of interpreter is probably not complete (onload code)
-  - doesn't exit program
-  - doesn't clear debugging in editor
-    - breakpoints
-	- activeline
   
 FEATURES
 - in debugmode: if current tab is trace, don't switch focus to debuginfo on step or continue

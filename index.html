@@ -239,18 +239,40 @@
 30 /^(?&lt;output>[^;]+);.*/${output}/</code>
 				</div>
 				
-				<h3>Prime numbers <a href="#" data-load-demo="primeNumbers">run</a></h3>
-				<div><code id="primeNumbers">10 /.*/Hello world!/</code></div>
-				
-				<h3>Object Oriented T-Regs (manipulate JSON) <a href="#" data-load-demo="oo">run</a></h3>
-				<div><code id="oo">10 /.*/Hello world!/</code></div>
-				
-				<h3>99 bottles of beer <a href="#" data-load-demo="bottlesOfBeer">run</a></h3>
-				<div><code id="bottlesOfBeer">10 /.*/Hello world!/</code></div>
+				<h3>99 Bottles of beer <a href="#" data-load-demo="bottlesOfBeer">run</a></h3>
+				<div>
+<code id="bottlesOfBeer">1  /.*/100/
+2  /(?&lt;goto>.*)//
+
+# Minus 1 
+# input: number;returnlabel;rest 
+# output: result;rest 
+10 /^(\d+)(;.*)$/$1;15$2/ 
+15 /^(?&lt;left>[1-9]\d*?-*)0(?=0*;)(?&lt;right>.*(?&lt;goto>15).*)/${left}-${right}/ 
+20 /(\d*);15(;.*)/$1;0123456789$2/ 
+25 /^(\d*)(?&lt;lastDigit>\d)(?&lt;lookup>-*;\d*(?&lt;newLastDigit>\d)\2.*)(;.*)$/$1${newLastDigit}${lookup}$5/ 
+30 /(\d*);\d+(;.*)/$1;35$2/ 
+35 /-(?=-*;)(?&lt;right>.*(?&lt;goto>35).*)/9${right}/ 
+40 /^0+([^0;])/$1/ 
+45 /^(\d*);[^;]+;(?&lt;goto>\d+)(;.*)$/$1$3/ 
+
+100 /.*/9;Bottles of beer on the wall, take one down, pass it around./
+110 /^(\d+);(.*)/$1;150-10;$2\n$1 $2/
+120 /^0;(?&lt;goto>\d+)-\d+;//
+130 /^(\d+);\d+-(?&lt;goto>\d+);(.*)/$1;110;$3/
+
+150 ///</code>
+				</div>
 				
 				<h3>Fibonacci sequence <a href="#" data-load-demo="fibonacci">run</a></h3>
 				<div><code id="fibonacci">10 /.*/Hello world!/</code></div>
 
+				<h3>Object Oriented T-Regs (manipulate JSON) <a href="#" data-load-demo="oo">run</a></h3>
+				<div><code id="oo">10 /.*/Hello world!/</code></div>
+				
+				<h3>Prime numbers <a href="#" data-load-demo="primeNumbers">run</a></h3>
+				<div><code id="primeNumbers">10 /.*/Hello world!/</code></div>
+				
 				<h3><em>Challenge!</em> a Quine has not yet been written</h3>
 				<div><code id="fibonacci"># ... </code></div>
 			</div>

@@ -109,8 +109,11 @@ var Interpreter = function(container) {
 		
 			editor.setCurrentLine(pendingExecutionState.lineNumber);
 			buttons.enable("step continue");
-			debugSections.DebugInfo.show();
+			if (!debugSections.Trace.isVisible()) {
+				debugSections.DebugInfo.show();
+			}
 			updateDebugInfo(pendingExecutionState);
+			updateTrace(program);
 		}
 		
 		return {
@@ -120,6 +123,7 @@ var Interpreter = function(container) {
 	})();
 
 	var exitProgram = function(program, pendingExecutionState) {
+		$debugInfo.html("");
 		updateTrace(program);
 
 		if (pendingExecutionState) {

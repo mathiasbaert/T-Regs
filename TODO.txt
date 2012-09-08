@@ -7,15 +7,14 @@
 BUGS
   
 FEATURES
-- in debugmode: if current tab is trace, don't switch focus to debuginfo on step or continue
-- demo code:
-  - prime numbers
-  - Object Oriented T-Regs (manipulate JSON)
-  - 99 bottles of beer
-  - Fibonacci sequence
-  - actual example of adding 2 numbers on the main page
 - errors: 
   - infinite loop detection
+- demo code:
+  - 99 bottles of beer
+  - Object Oriented T-Regs (manipulate JSON)
+  - Fibonacci sequence
+  - actual example of adding 2 numbers on the main page
+  - prime numbers
 
  #  ### ### ### ##      ##  ### #   ###  #  ### ###
 # # #    #  #   # #     # # #   #   #   # # #   #  

@@ -117,10 +117,12 @@ var Program = (function() {
 	var step = function(executionState) {
 		var currentLine = this.lookupByLabel[executionState.label].line;
 		
+		var infiniteLoop = detectInfiniteLoop.call(this, currentLine.label, executionState.text);
+
 		var result = currentLine.run(executionState.text);
 
 		executionState.text = result.text;
-		executionState.error = result.error;
+		executionState.error = result.error || executionState.error;
 		
 		setExecutionStateLabel.call(this, executionState, result.goto ? result.goto : this.lookupByLabel[currentLine.label].nextLabel);
 		if ( executionState.hasLabel() ) {
@@ -129,6 +131,10 @@ var Program = (function() {
 		else {
 			executionState.completed = true;
 		}
+
+		if (infiniteLoop) {
+			executionState.error = new Error("Infinite loop detected", null, executionState.label);
+		} 
 		
 		return executionState;
 	};
@@ -153,11 +159,10 @@ var Program = (function() {
 		}
 	};
 	
-	var startTrace = function(text) {
+	var startTrace = function() {
 		this.trace = [];
-		trace.call(this, "input", text);
 	};
-	
+		
 	var trace = function(label, text) {
 		this.trace.push({label:label, text:text});
 	}
@@ -170,6 +175,25 @@ var Program = (function() {
 		this.errors.push(error);
 	}
 	
+	var infiniteLoopLookup;
+	var startDetectInfiniteLoop = function() {
+		infiniteLoopLookup = {};
+	};
+	var detectInfiniteLoop = function(label, text) {
+		if (!infiniteLoopLookup[label]) {
+			infiniteLoopLookup[label] = [];
+		}
+		
+		for (var i=0, l=infiniteLoopLookup[label].length; i<l; i++) {
+			if (infiniteLoopLookup[label].indexOf(text)!=-1) {
+				return true;
+			}
+		}
+		
+		infiniteLoopLookup[label].push(text);
+		return false;
+	}
+
 	Program.prototype.doContinue = function(executionState, executionStateHandler) {
 		if (this.lines.isEmpty() || executionState.completed) {
 			executionState.completed = true;
@@ -178,18 +202,18 @@ var Program = (function() {
 			if (executionState.executionMode==ExecutionMode.Run || 
 				executionState.executionMode==ExecutionMode.Debug) {
 				setExecutionStateLabel.call(this, executionState, this.lines[0].label);
-				startTrace.call(this, executionState.text);
+				startTrace.call(this);
 				startErrors.call(this);
+				startDetectInfiniteLoop.call(this);
 			}
 			var previousLabel;
 			if (executionState.executionMode==ExecutionMode.Step || 
 				executionState.executionMode==ExecutionMode.Continue) {
 				var label = executionState.label;
 				executionState = step.call(this, executionState);
+				trace.call(this, label, executionState.text);
 				if (executionState.error) {
 					error.call(this, executionState.error);
-				} else {
-					trace.call(this, label, executionState.text);
 				}
 			}
 			if ((!this.errors || !this.errors.length) && (
@@ -209,11 +233,10 @@ var Program = (function() {
 					}
 					var label = executionState.label;
 					executionState = step.call(this, executionState);
+					trace.call(this, label, executionState.text);
 					if (executionState.error) {
 						error.call(this, executionState.error);
 						break;
-					} else {
-						trace.call(this, label, executionState.text);
 					}
 				}
 			}

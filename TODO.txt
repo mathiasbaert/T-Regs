@@ -7,8 +7,6 @@
 BUGS
   
 FEATURES
-- errors: 
-  - infinite loop detection
 - demo code:
   - 99 bottles of beer
   - Object Oriented T-Regs (manipulate JSON)
@@ -28,7 +26,7 @@ FEATURES
 - favicon
 - keyboard shortcuts
   - Crtl + Enter -> run
-  - gui
+- gui
   - logo ///
   - font
   - nicer buttons for run, debug, step, continue

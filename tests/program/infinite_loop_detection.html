@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Program :: Special Characters in Replace</title>
+		<title>Program :: Infinite loop detection</title>
 		<link rel="stylesheet" href="../../lib/qunit/qunit/qunit.css">
 	</head>
 	<body>
@@ -15,23 +15,13 @@
 		<script src="../../executionstate.js"></script>
 		<script src="../../program.js"></script>
 		<script>
-			test("linebreak character can be part of the find", function() {
-				var program = new Program('10 /\\n/-/s');
-				program.doContinue(
-					new ExecutionState({text:'one\ntwo'}),
-					function(executionState) {
-						equal("one-two", executionState.text);
-					}
-				);
-			});
-			test("linebreak character can be part of the replace", function() {
-				var program = new Program('10 /.*/one\\ntwo/');
+			test("a program with an infinite loop exits with an error", function() {
+				var program = new Program('10 /.*/10/\n20/(?<goto>\\d+)//');
 				program.doContinue(
 					new ExecutionState(),
-					function(executionState) {
-						equal("one\ntwo", executionState.text);
-					}
+					function() {}
 				);
+				equal(1, program.errors.length);
 			});
 		</script>
 	</body>

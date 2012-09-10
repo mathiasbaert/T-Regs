@@ -247,21 +247,27 @@
 # Minus 1 
 # input: number;returnlabel;rest 
 # output: result;rest 
-10 /^(\d+)(;.*)$/$1;15$2/ 
-15 /^(?&lt;left>[1-9]\d*?-*)0(?=0*;)(?&lt;right>.*(?&lt;goto>15).*)/${left}-${right}/ 
-20 /(\d*);15(;.*)/$1;0123456789$2/ 
-25 /^(\d*)(?&lt;lastDigit>\d)(?&lt;lookup>-*;\d*(?&lt;newLastDigit>\d)\2.*)(;.*)$/$1${newLastDigit}${lookup}$5/ 
-30 /(\d*);\d+(;.*)/$1;35$2/ 
-35 /-(?=-*;)(?&lt;right>.*(?&lt;goto>35).*)/9${right}/ 
-40 /^0+([^0;])/$1/ 
-45 /^(\d*);[^;]+;(?&lt;goto>\d+)(;.*)$/$1$3/ 
+10 /^(\d+)/$1;15/
+15 /^(?&lt;left>[1-9]\d*?-*)0(?=0*;)(?&lt;right>.*(?&lt;goto>15).*)/${left}-${right}/
+20 /(\d*);15(;.*)/$1;0123456789$2/
+25 /^(\d*)(?&lt;lastDigit>\d)(?&lt;lookup>-*;\d*(?&lt;newLastDigit>\d)\2.*)/$1${newLastDigit}${lookup}/
+30 /(\d*);\d+/$1;35/
+35 /-(?=-*;)(?&lt;right>.*(?&lt;goto>35).*)/9${right}/
+40 /^0+([^0;])/$1/
+45 /^(\d*);[^;]+;(?&lt;goto>\d+)/$1/
 
-100 /.*/9;Bottles of beer on the wall, take one down, pass it around./
-110 /^(\d+);(.*)/$1;150-10;$2\n$1 $2/
-120 /^0;(?&lt;goto>\d+)-\d+;//
-130 /^(\d+);\d+-(?&lt;goto>\d+);(.*)/$1;110;$3/
+# init at 99
+100 /.*/98;01Nno more bottles;\n99 bottles of beer on the wall, 99 bottles of beer./
+# add next line of lyrics
+# input: number;rest
+110 /^(?:(\d+)(;\k&lt;1>1(N)(n)([^;]+))|(\d+)(;0\6N.*?( b[^s]+).)|(\d+)(;01N.*?( b[^;]+)));(.*)$/$1$6$9;10-110-150$2$7$10;$12\nTake one down and pass it around, $4$6$9$5$8$11 of beer on the wall.\n\n$3$6$9$5$8$11 of beer on the wall, $4$6$9$5$8$11 of beer./s
+# if at 0, skip to end
+120 /^0;\d+-\d+-(?&lt;goto>\d+);/$0/
+# minus 1 and goto print line
+140 /^(\d+;)(?&lt;goto>\d+)-(\d+)-\d+/$1$3/
 
-150 ///</code>
+
+150 /^[^\n]+\n(.*)/$1\nGo to the store and buy some more, 99 bottles of beer on the wall./s</code>
 				</div>
 				
 				<h3>Fibonacci sequence <a href="#" data-load-demo="fibonacci">run</a></h3>

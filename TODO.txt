@@ -8,11 +8,9 @@ BUGS
   
 FEATURES
 - demo code:
-  - 99 bottles of beer
   - Object Oriented T-Regs (manipulate JSON)
   - Fibonacci sequence
   - actual example of adding 2 numbers on the main page
-  - prime numbers
 
  #  ### ### ### ##      ##  ### #   ###  #  ### ###
 # # #    #  #   # #     # # #   #   #   # # #   #  
@@ -21,6 +19,8 @@ FEATURES
 # # #    #  ### # #     # # ### ### ### # # ### ###
 
 FEATURES
+- demo code:
+  - prime numbers
 - regex syntax highlighting
 - stop button
 - favicon

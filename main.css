@@ -240,6 +240,7 @@ th {
 	padding-left:5px;
 	white-space:nowrap;
 	width:1%;
+	vertical-align:top;
 }
 thead th {
 	border-bottom:solid 1px;

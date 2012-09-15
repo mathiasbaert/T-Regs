@@ -233,7 +233,7 @@
 				
 				<h3>Palindrome checker <a href="#" data-load-demo="palindrome">run</a></h3>
 				<div>
-<code id="palindrome" data-input="racecar"># palindrome
+<code id="palindrome" data-input="racecar">### Palindrome
 10 /.*/$0;20;yes,no/
 20 /^(?&lt;ZeroOrOneCharacter>.?;.*(?&lt;yes>yes))|(?&lt;FirstSameAsLast>(.)(?&lt;middle>.*)\4;(?&lt;goto>20)(?&lt;remainder>.*))|(?&lt;NotAPalindrome>.*(?&lt;no>no)).*$/${yes}${no}${middle};${goto}${remainder}/
 30 /^(?&lt;output>[^;]+);.*/${output}/</code>
@@ -241,7 +241,8 @@
 				
 				<h3>99 Bottles of beer <a href="#" data-load-demo="bottlesOfBeer">run</a></h3>
 				<div>
-<code id="bottlesOfBeer">1  /.*/100/
+<code id="bottlesOfBeer">### 99 Bottles of beer
+1  /.*/100/
 2  /(?&lt;goto>.*)//
 
 # Minus 1 
@@ -271,7 +272,62 @@
 				</div>
 				
 				<h3>Fibonacci sequence <a href="#" data-load-demo="fibonacci">run</a></h3>
-				<div><code id="fibonacci">10 /.*/Hello world!/</code></div>
+				<div><code id="fibonacci">### Fibonacci
+1 /.*/100;$0/
+2 /(?&lt;goto>\d+);//
+
+# Main
+100 /.*/500;1000;200;7;0 1/
+110 /^(?&lt;goto>\d+);//
+
+# Add Fibonacci number
+200  /^(?&lt;return>\d+);(([ 0-9]+ )?(\d+) (\d+))/500;220;50;$4;$5;$2;${return}/
+210  /^(?&lt;goto>\d+);//
+220  /^(\d+);([ 0-9]+);(?&lt;goto>\d+)/${goto};$2 $1/
+
+1000 ///
+
+
+# Minus 1
+#    input:  returnlabel;number;rest
+#    output: returnlabel;result;rest
+10   /^(\d+);(\d+)(;.*)?$/$2;15;$1$3/
+15   /^(?&lt;left>[1-9]\d*?-*)0(?=0*;)(?&lt;right>.*(?&lt;goto>15).*)/${left}-${right}/
+20   /(\d*);15(;.*)/$1;0123456789$2/
+25   /^(\d*)(?&lt;lastDigit>\d)(?&lt;lookup>-*;\d*(?&lt;newLastDigit>\d)\2.*)(;.*)$/$1${newLastDigit}${lookup}$5/
+30   /(\d*);\d+(;.*)/$1;35$2/
+35   /-(?=-*;)(?&lt;right>.*(?&lt;goto>35).*)/9${right}/
+40   /^(\d*);[^;]+;(?&lt;goto>\d+)(;.*)?$/$2;$1$3/
+
+
+# Plus 1
+#    input:  returnlabel;number;rest
+#    output: returnlabel;result;rest
+50   /^(\d+);(\d+)(;.*)$/$2;0123456789;60;$1$3/
+55   /^9+;/0$0/
+60   /^(?&lt;left>[0-8]\d*?-*)9(?=9*;)(?&lt;right>.*(?&lt;goto>60).*)/${left}-${right}/
+65   /^(\d*)(?&lt;lastDigit>\d)(?&lt;lookup>-*;\d*\2(?&lt;newLastDigit>\d).*)(;.*)$/$1${newLastDigit}${lookup}$5/
+75   /(\d*);\d+;\d+(;.*)/$1;80$2/
+80   /-(?=-*;)(?&lt;right>.*(?&lt;goto>80).*)/0${right}/
+85   /^(\d*);[^;]+;(?&lt;goto>\d+)(.*)$/$2;$1$3/
+
+
+# repeatedly calls a function
+# input: returnlabel;label;itterations;input for function
+# output: ouput from function
+# the function will get it's own exact output as input again, so should in- and out-put in the same format
+# 1. initialize
+500 /^(?&lt;returnlabel>\d+);(?&lt;label>\d+);(?&lt;itterations>\d+);(?&lt;rest>.*)$/${label};${rest};${itterations}-0;10-530-${label}-${returnlabel}/s
+# 2. goto returnlabel if itterations == 0
+510 /^(\d+);(?&lt;result>.*?);(?&lt;itterations>\d+)-\3;(\d+)-(\d+)-(\d+)-(?&lt;goto>\d+)$/${result}/
+# 3. itterations--
+520 /^(.*);(?&lt;itterations>\d+)-0;(?&lt;goto>\d+)-(?&lt;return>\d+)-(\d+)-(\d+)$/${return};${itterations};$0/
+530 /^(\d+);(?&lt;itterations>\d+);(.*);(\d+)(-0;)\d+-\d+(-\d+-\d+)$/$3;${itterations}${5}550$6/
+# 4. call function
+540 /^(?&lt;goto>\d+);(?&lt;arguments>.*;(?&lt;return>\d+)-\d+-\d+)$/${return};${arguments}/
+550 /^\d+;(?&lt;arguments>.*);(?&lt;itterations>\d+)-0;\d+-(?&lt;label>\d+)-(?&lt;return>\d+)$/500;${return};${label};${itterations};${arguments}/
+560 /^(?&lt;goto>\d+);//</code>
+				</div>
 
 				<h3>Object Oriented T-Regs (manipulate JSON) <a href="#" data-load-demo="oo">run</a></h3>
 				<div><code id="oo">10 /.*/Hello world!/</code></div>

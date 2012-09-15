@@ -9,8 +9,6 @@ BUGS
 FEATURES
 - demo code:
   - Object Oriented T-Regs (manipulate JSON)
-  - Fibonacci sequence
-  - actual example of adding 2 numbers on the main page
 
  #  ### ### ### ##      ##  ### #   ###  #  ### ###
 # # #    #  #   # #     # # #   #   #   # # #   #  

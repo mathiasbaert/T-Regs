@@ -147,10 +147,11 @@ html {
 
 .breakpoint:before {
 	content:"●";
-	position:absolute;
 	color:#B33;
-	margin-left:-6px;
 	font-size:1.4em;
+	float:left;
+	width:0;
+	overflow:visible;
 }
 
 .activeline {

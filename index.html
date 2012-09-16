@@ -139,18 +139,20 @@
 				</div>
 				<p>In this example at label 20 the value "40" is captured with name goto and the program will jump to label 40 as a consequence.
 
-				<h2>Regular Expressions Specifics</h2>
+				<h2>Regular Expression Specifics</h2>
 				<h3>The Regex dialect</h3>
 				<p>used in this implementation is the one as implemented by <a href="http://xregexp.com/">xregexp</a>.</p>
 				<p>The important thing to know is that it has named captures which are used like this:</p>
 				<div>
 <code># given an input "3 + 4"
-10 /^<em>(?&lt;left></em>\d+<em>)</em>\s*(?&lt;operator>[-+\/*])\s*(?&lt;right>\d+)$/<br>${right}${operator}<em>${left}</em>/</code>
+# outputs "4 + 3"
+10 /^<em>(?&lt;left></em>\d+<em>)</em>(?&lt;operator>\s*[-+\/*]\s*)(?&lt;right>\d+)$/<br>${right}${operator}<em>${left}</em>/</code>
 				</div>
 				<p>But of course nameless captures are equally fine.</p>
 				<div>
 <code># given an input "3 + 4"
-10 /^<em>(</em>\d+<em>)</em>\s*([-+\/*])\s*(\d+)$/$3$2<em>$1</em>/</code>
+# outputs "4 + 3"
+10 /^<em>(</em>\d+<em>)</em>(\s*[-+\/*]\s*)(\d+)$/$3$2<em>$1</em>/</code>
 				</div>
 				<h3>Matching behaviour</h3>
 				<p>Be default the regular expression is case sensitive and applied only once</p>

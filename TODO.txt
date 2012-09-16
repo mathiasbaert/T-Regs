@@ -7,8 +7,6 @@
 BUGS
   
 FEATURES
-- demo code:
-  - Object Oriented T-Regs (manipulate JSON)
 
  #  ### ### ### ##      ##  ### #   ###  #  ### ###
 # # #    #  #   # #     # # #   #   #   # # #   #  

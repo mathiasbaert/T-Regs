@@ -33,7 +33,7 @@ var Program = (function() {
 			} catch (e) {
 				this.error = new Error(e.message, this.number, this.label);
 			}
-			this.replace = makeEscapedSpecialCharactersReal(match.replace||"");
+			this.replace = Util.makeEscapedSpecialCharactersReal(match.replace||"");
 		}
 		Line.prototype.run = function(text) {
 			var newText = text;
@@ -62,11 +62,7 @@ var Program = (function() {
 				text : newText
 			};
 		}
-		
-		var makeEscapedSpecialCharactersReal = function(text) {
-			return text.replace(/\\n/g, '\n');
-		};
-		
+				
 		return Line;
 	})();
 

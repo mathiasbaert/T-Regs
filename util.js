@@ -70,3 +70,9 @@ Sections.prototype.addOnShowSection = function(index, handler) {
 	this.onShows[index] = this.onShows[index] || [];
 	this.onShows[index].push(handler);
 };
+
+var Util = {
+	makeEscapedSpecialCharactersReal : function(text) {
+		return text.replace(/\\n/g, '\n').replace(/\\t/g, '\t');
+	}
+}

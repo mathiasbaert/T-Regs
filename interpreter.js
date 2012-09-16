@@ -167,7 +167,7 @@ var Interpreter = function(container) {
 		loadCode : function(code, input) {
 			reset();
 			editor.setValue(code);
-			$input.val(input||"");
+			$input.val(Util.makeEscapedSpecialCharactersReal(input||""));
 		}
 	};
 };

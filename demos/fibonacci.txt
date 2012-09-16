@@ -1,0 +1,58 @@
+### Fibonacci
+
+1 /.*/100;$0/
+2 /(?<goto>\d+);//
+
+# Main
+100 /^(\d+)$/500;1000;200;$1;0 1/
+110 /^(?<goto>\d+);//
+
+# Add Fibonacci number
+200  /^(?<return>\d+);(([ 0-9]+ )?(\d+) (\d+))/500;220;50;$4;$5;$2;${return}/
+210  /^(?<goto>\d+);//
+220  /^(\d+);([ 0-9]+);(?<goto>\d+)/${goto};$2 $1/
+
+1000 ///
+
+
+# Minus 1
+#    input:  returnlabel;number;rest
+#    output: returnlabel;result;rest
+10   /^(\d+);(\d+)(;.*)?$/$2;15;$1$3/
+15   /^(?<left>[1-9]\d*?-*)0(?=0*;)(?<right>.*(?<goto>15).*)/${left}-${right}/
+20   /(\d*);15(;.*)/$1;0123456789$2/
+25   /^(\d*)(?<lastDigit>\d)(?<lookup>-*;\d*(?<newLastDigit>\d)\2.*)(;.*)$/$1${newLastDigit}${lookup}$5/
+30   /(\d*);\d+(;.*)/$1;35$2/
+35   /-(?=-*;)(?<right>.*(?<goto>35).*)/9${right}/
+40   /^(\d*);[^;]+;(?<goto>\d+)(;.*)?$/$2;$1$3/
+
+
+# Plus 1
+#    input:  returnlabel;number;rest
+#    output: returnlabel;result;rest
+50   /^(\d+);(\d+)(;.*)$/$2;0123456789;60;$1$3/
+55   /^9+;/0$0/
+60   /^(?<left>[0-8]\d*?-*)9(?=9*;)(?<right>.*(?<goto>60).*)/${left}-${right}/
+65   /^(\d*)(?<lastDigit>\d)(?<lookup>-*;\d*\2(?<newLastDigit>\d).*)(;.*)$/$1${newLastDigit}${lookup}$5/
+75   /(\d*);\d+;\d+(;.*)/$1;80$2/
+80   /-(?=-*;)(?<right>.*(?<goto>80).*)/0${right}/
+85   /^(\d*);[^;]+;(?<goto>\d+)(.*)$/$2;$1$3/
+
+
+# repeatedly calls a function
+# input: returnlabel;label;itterations;input for function
+# output: ouput from function
+# the function will get it's own exact output as input again, so should in- and out-put in the same format
+# 1. initialize
+500 /^(?<returnlabel>\d+);(?<label>\d+);(?<itterations>\d+);(?<rest>.*)$/${label};${rest};${itterations}-0;10-530-${label}-${returnlabel}/s
+# 2. goto returnlabel if itterations == 0
+510 /^(\d+);(?<result>.*?);(?<itterations>\d+)-\3;(\d+)-(\d+)-(\d+)-(?<goto>\d+)$/${result}/
+# 3. itterations--
+520 /^(.*);(?<itterations>\d+)-0;(?<goto>\d+)-(?<return>\d+)-(\d+)-(\d+)$/${return};${itterations};$0/
+530 /^(\d+);(?<itterations>\d+);(.*);(\d+)(-0;)\d+-\d+(-\d+-\d+)$/$3;${itterations}${5}550$6/
+# 4. call function
+540 /^(?<goto>\d+);(?<arguments>.*;(?<return>\d+)-\d+-\d+)$/${return};${arguments}/
+550 /^\d+;(?<arguments>.*);(?<itterations>\d+)-0;\d+-(?<label>\d+)-(?<return>\d+)$/500;${return};${label};${itterations};${arguments}/
+560 /^(?<goto>\d+);//
+
+900 ///

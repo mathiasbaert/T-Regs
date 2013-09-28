@@ -156,7 +156,7 @@
 10 /^<em>(</em>\d+<em>)</em>(\s*[-+\/*]\s*)(\d+)$/$3$2<em>$1</em>/</code>
 				</div>
 				<h3>Matching behaviour</h3>
-				<p>Be default the regular expression is case sensitive and applied only once</p>
+				<p>By default the regular expression is case sensitive and applied only once</p>
 				<div>
 <code># input "aaaa"
 10 /<em>a</em>/<em>b</em>/
@@ -248,6 +248,43 @@
 10 /.*/$0;20;yes,no/
 20 /^(?&lt;ZeroOrOneCharacter>.?;.*(?&lt;yes>yes))|(?&lt;FirstSameAsLast>(.)(?&lt;middle>.*)\4;(?&lt;goto>20)(?&lt;remainder>.*))|(?&lt;NotAPalindrome>.*(?&lt;no>no)).*$/${yes}${no}${middle};${goto}${remainder}/
 30 /^(?&lt;output>[^;]+);.*/${output}/</code>
+				</div>
+				
+				<h3>Conway's Game of Life <a href="#" data-load-demo="gameOfLife">run</a></h3>
+				<p>T-Regs is gaining popularity in the <em>scientific community</em>. It has become to be recognized as a <em>pragmatic tool</em> for a wide variety of simulations. It's expressive power is illustrated here by this 13 line Game of Life implementation.</p>
+				<div>
+<code id="gameOfLife" data-input="------##--------------------------------
+-##---##----##--------#----#-#----#-----
+##----------##--------#----#-#----#-----
+-#--------------------#----#-#----#-----
+-------###--------------###---###-------
+----------------------------------------
+------------------------###---###-------
+----------------------#----#-#----#-----
+-#---#-#----#--#------#----#-#----#-----
+--#---##--#-#---##----#----#-#----#-----
+###---#----##--##-----------------------
+------------------------###---###-------
+----------------------------------------
+#-------------------------------------##
+#-----####----------------------------#-
+#------####---------------------------##
+----------------------------------------
+----------------------------------------
+----##----------------------------------
+----##------------------###---###-------">1  /^([^\n]+).*\n([^\n]+)$/$2\n$0\n$1/s
+2  /^(.).*(.)$/$2$0$1/mg
+3  /(#)|-/$0w$1W/g
+4  /w(?=\W*W(?:\Ww\W*W\n?){0}#)/w#/gs
+5  /w(?=\W*W(?:\Ww\W*W\n?){1}#)/w#/gs
+6  /w(?=\W*W(?:\Ww\W*W\n?){41}#)/w#/gs
+7  /w(?=\W*W(?:\Ww\W*W\n?){43}#)/w#/gs
+8  /w(?=\W*W(?:\Ww\W*W\n?){83}#)/w#/gs
+9  /w(?=\W*W(?:\Ww\W*W\n?){84}#)/w#/gs
+10 /w(?=\W*W(?:\Ww\W*W\n?){85}#)/w#/gs
+11 /\Ww(?:###|#(#))W(?=(?:\Ww\W*W\n?){42}\1)/#/gs
+12 /\Ww#*W/-/g
+13 /(?:\n[^\n]+){2}$|.{2}(?=\n|$)//gs</code>
 				</div>
 				
 				<h3>99 Bottles of beer <a href="#" data-load-demo="bottlesOfBeer">run</a></h3>
@@ -347,7 +384,7 @@
 				<div><code id="primeNumbers"># ...</code></div>
 				
 				<h3><em>Challenge!</em> a Quine has not yet been written</h3>
-				<div><code id="quine"># ... </code></div>
+				<div><code id="fibonacci"># ... </code></div>
 			</div>
 			<div id="interpreter">
 				<textarea rows="20" cols="80" id="code"></textarea>

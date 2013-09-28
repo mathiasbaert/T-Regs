@@ -20,7 +20,7 @@ var Interpreter = function(container) {
 	var editor = new Editor($code[0]);
 	
 	var offsetTop = 0;
-	// offset() doesn't seem te be working
+	// offset() doesn't seem to be working
 	var i=10
 	for (var parent = container; parent[0]!=document && i; parent = parent.parent(), i--) {
 		offsetTop += parent.offset().top; 
